@@ -89,15 +89,15 @@ public class TelemetrySubSystem implements EngineSubsystem {
 
         Config config = rootContext.get(Config.class);
         TelemetryConfig telemetryConfig = config.getTelemetryConfig();
-        String errorReportingDestination = telemetryConfig.getErrorReportingDestination();
+        String errorReportingDestination = "telemetry.terasology.com:9000";
         if (errorReportingDestination == null) {
             errorReportingDestination = TelemetryLogstashAppender.DEFAULT_LOGSTASH_HOST + ":" + TelemetryLogstashAppender.DEFAULT_LOGSTASH_PORT;
             telemetryConfig.setErrorReportingDestination(errorReportingDestination);
         }
-        if (telemetryConfig.isErrorReportingEnabled()) {
-            telemetryLogstashAppender.addDestination(errorReportingDestination);
-            telemetryLogstashAppender.start();
-        }
+
+        telemetryLogstashAppender.addDestination(errorReportingDestination);
+        telemetryLogstashAppender.start();
+
     }
 
     private void setTelemetryDestination(Context rootContext) {
